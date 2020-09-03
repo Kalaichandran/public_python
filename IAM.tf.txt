@@ -1,0 +1,87 @@
+#Terraform-AWS Provider
+provider "aws" {
+  version = "~> 2.0"
+  region  = "us-east-1"
+}
+#IAM User creation
+resource "aws_iam_user" "Hi" {
+  name = "HTC_01"
+  }
+resource "aws_iam_user" "Hi1" {
+  name = "HTC_02"
+  }
+resource "aws_iam_user" "Hi2" {
+  name = "HTC_03"
+  }
+resource "aws_iam_user" "Hi3" {
+  name = "HTC_04"
+  }
+resource "aws_iam_user" "Hi4" {
+  name = "HTC_05"
+  }
+#IAM Group Creation
+resource "aws_iam_group" "Hi5" {
+  name = "Developing"
+  }
+resource "aws_iam_group" "Hi6" {
+  name = "Supporting"
+  }
+
+#IAM User attching to Group1
+resource "aws_iam_user_group_membership" "Hi8" {
+  user = aws_iam_user.Hi.name
+
+  groups = [
+    aws_iam_group.Hi5.name
+  ]
+}
+resource "aws_iam_user_group_membership" "Hi9" {
+  user = aws_iam_user.Hi1.name
+
+  groups = [
+    aws_iam_group.Hi5.name
+  ]
+}
+resource "aws_iam_user_group_membership" "Hi10" {
+  user = aws_iam_user.Hi2.name
+
+  groups = [
+    aws_iam_group.Hi5.name
+  ]
+}
+#IAM User Attching to Group2
+resource "aws_iam_user_group_membership" "Hi11" {
+  user = aws_iam_user.Hi3.name
+
+  groups = [
+    aws_iam_group.Hi6.name
+  ]
+}
+resource "aws_iam_user_group_membership" "Hi12" {
+  user = aws_iam_user.Hi4.name
+
+  groups = [
+    aws_iam_group.Hi6.name
+  ]
+}
+#IAM User Policy attch
+resource "aws_iam_user_policy" "Hi7" {
+  name = "HTC_01"
+  user = aws_iam_user.Hi.name
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "ec2:Describe*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
